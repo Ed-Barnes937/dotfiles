@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "model": "claude-fable-5[1m]",
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/edward.barnes@glean.co/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true
+  },
+  "theme": "auto",
+  "skipAutoPermissionPrompt": true,
+  "tui": "fullscreen"
+}

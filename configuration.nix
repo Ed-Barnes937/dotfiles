@@ -30,6 +30,7 @@
   nix-homebrew = {
     enable = true;
     inherit user;
+    autoMigrate = true;  # adopt the existing Homebrew install rather than failing
   };
   homebrew = {
     enable = true;
@@ -61,10 +62,10 @@
       "watchman"
       "whisper-cpp"
       "sizeak/tap/claude-commander"
+      "herdr"
     ];
     casks = [
       "wezterm"
-      "claude-code"
       "applepi-baker"
       "scroll-reverser"
       "xcodes-app"
