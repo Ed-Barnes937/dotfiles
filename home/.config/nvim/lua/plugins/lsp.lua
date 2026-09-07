@@ -28,19 +28,16 @@ return {
         },
       })
 
-      -- server binaries come from home.nix (home.packages), not mason.
-      -- These are lspconfig server names, not nixpkgs package names: one
-      -- package (vscode-langservers-extracted) ships html/cssls/jsonls/eslint.
       vim.lsp.enable({
-        'nil_ls',                  -- nix
-        'vtsls',                   -- typescript / javascript (incl. tsx/jsx)
-        'kotlin_language_server',  -- kotlin
-        'lua_ls',                  -- lua
-        'html',                    -- HTML
-        'cssls',                   -- CSS
-        'jsonls',                  -- JSON
-        'eslint',                  -- ESLint (reads the repo's own config)
-        'marksman',                -- Markdown
+        'nil_ls',                 -- nix
+        'vtsls',                  -- typescript / javascript (incl. tsx/jsx)
+        'kotlin_language_server', -- kotlin
+        'lua_ls',                 -- lua
+        'html',                   -- HTML
+        'cssls',                  -- CSS
+        'jsonls',                 -- JSON
+        'eslint',                 -- ESLint (reads the repo's own config)
+        'marksman',               -- Markdown
       })
 
       -- Apply ESLint's own --fix on save. Only attaches in buffers where the

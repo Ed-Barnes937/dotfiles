@@ -2,12 +2,17 @@
 delivery = "herdr"
 
 [ui]
+# Workaround for herdr#3329: the scrollbar column is reserved for shells but
+# reclaimed for alt-screen TUIs, so every nvim launch resizes the pane by one
+# column and corrupts herdr's retained grid. Shows up as stale/duplicate cells
+# on soft-wrapped lines, cleared by ctrl-l. Drop this once 3329 is fixed.
+pane_scrollbars = false
 status_indicators = "symbols"
 show_agent_labels_on_pane_borders = true
 sidebar_width = 32
 sidebar_max_width = 36
 # Agents panel order: explicit choice of "spaces" (grouped by space, the default) over "priority".
-agent_panel_sort = "spaces"
+agent_panel_sort = "priority"
 
 [ui.sidebar.spaces]
 row_gap=1
@@ -28,4 +33,13 @@ split_vertical    = "prefix+v"
 new_tab   = "prefix+c"
 workspace_picker = "prefix+w"
 goto             = "prefix+g"
+previous_workspace = "prefix+up"
+next_workspace     = "prefix+down"
 copy_mode  = "prefix+y"  # herdr's copy-mode entry key; copy-mode's own internal keys (v/space select, y/Enter copy, q/Esc cancel) aren't configurable
+
+# Standard workspace layout: nvim left, claude top-right, shell bottom-right.
+# Herdr has no declarative layout config, so this scripts the pane CLI instead.
+[[keys.command]]
+key = "prefix+shift+l"
+type = "shell"
+command = "~/.config/herdr/layout.sh"

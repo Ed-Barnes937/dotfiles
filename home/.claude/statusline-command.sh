@@ -1,7 +1,7 @@
 #!/bin/sh
 # Claude Code status line — Powerlevel10k-styled.
-# Left side mirrors p10k: os_icon -> dir -> vcs (rounded powerline segments).
-# Right side: [dir] model([fable_rem%] ctx_tok) 5hr%/7d%
+# Line 1: os_icon -> dir -> vcs (rounded powerline segments).
+# Line 2: model([fable_rem%] ctx_tok) 5hr%/7d%
 
 input=$(cat)
 
@@ -80,12 +80,46 @@ fmt_reset() {
   fi
 }
 
-# --- shorten cwd like p10k (collapse $HOME, keep tail) -------------------
+# --- shorten cwd like p10k (collapse $HOME, abbreviate parents) ----------
+# Every parent component collapses to its first character, so the segment
+# stays a bounded width however deep the tree; a leading dot is kept and the
+# final component is never touched:
+#   ~/Code/dotfiles/home/.claude -> ~/C/d/h/.claude
+shorten_dir() {
+  p=$1
+  case "$p" in
+    "~"|"/") printf '%s' "$p"; return ;;
+    "~/"*) root="~/"; p=${p#\~/} ;;
+    /*)    root="/";  p=${p#/} ;;
+    *)     root="" ;;
+  esac
+
+  leaf=${p##*/}
+  parents=${p%/*}
+  # No separator left means the leaf was the only component.
+  [ "$parents" = "$p" ] && { printf '%s%s' "$root" "$leaf"; return; }
+
+  abbrev=""
+  IFS=/
+  for comp in $parents; do
+    case "$comp" in
+      ""|.|..) short_comp=$comp ;;
+      .*)      short_comp=${comp%"${comp#??}"} ;;
+      *)       short_comp=${comp%"${comp#?}"} ;;
+    esac
+    abbrev="$abbrev$short_comp/"
+  done
+  unset IFS
+
+  printf '%s%s%s' "$root" "$abbrev" "$leaf"
+}
+
 case "$cwd" in
   "$HOME") short="~" ;;
   "$HOME"/*) short="~/${cwd#$HOME/}" ;;
   *) short="$cwd" ;;
 esac
+short=$(shorten_dir "$short")
 
 # --- git segment ---------------------------------------------------------
 branch=$(git -C "$cwd" --no-optional-locks symbolic-ref --short HEAD 2>/dev/null)
@@ -110,7 +144,8 @@ else
   out="$out$(rst)$(fg 4)$SEP$(rst)"
 fi
 
-# --- right side: [dir] model([fable_rem%] ctx_tok) 5hr%/7d% -------------
+# --- line 2: model([fable_rem%] ctx_tok) 5hr%/7d% -----------------------
+line2=""
 
 # Build the parenthesised section inside model(...)
 paren_inner=""
@@ -128,17 +163,17 @@ esac
 # Context token count with colour
 paren_inner="${paren_inner}$(ctx_color "$tok")$(human "$tok") tok$(rst)"
 
-out="$out $(fg 245)$model$(rst)$(fg 244)($(rst)${paren_inner}$(fg 244))$(rst)"
+line2="$(fg 245)$model$(rst)$(fg 244)($(rst)${paren_inner}$(fg 244))$(rst)"
 
 # Rate limits: 5hr% (reset)/7d% (reset) — only when at least one is present
 if [ -n "$day_pct" ] || [ -n "$wk_pct" ]; then
   day_r=""; wk_r=""
   [ -n "$day_reset" ] && day_r=$(fmt_reset $(( day_reset - now )))
   [ -n "$wk_reset" ]  && wk_r=$(fmt_reset $(( wk_reset - now )))
-  out="$out $(fg 240)|$(rst) $(five_color "$day_pct")"
-  [ -n "$day_r" ] && out="$out$(fg 240) ($day_r)$(rst)"
-  out="$out$(fg 240)/$(rst)$(week_color "$wk_pct")"
-  [ -n "$wk_r" ] && out="$out$(fg 240) ($wk_r)$(rst)"
+  line2="$line2 $(fg 240)|$(rst) $(five_color "$day_pct")"
+  [ -n "$day_r" ] && line2="$line2$(fg 240) ($day_r)$(rst)"
+  line2="$line2$(fg 240)/$(rst)$(week_color "$wk_pct")"
+  [ -n "$wk_r" ] && line2="$line2$(fg 240) ($wk_r)$(rst)"
 fi
 
-printf '%s' "$out"
+printf '%s\n%s' "$out" "$line2"
