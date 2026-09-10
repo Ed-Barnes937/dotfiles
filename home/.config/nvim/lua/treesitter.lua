@@ -3,6 +3,10 @@
 -- :TSInstall step and nothing is compiled at runtime. This file only turns
 -- the features on.
 --
+-- Sitting in site/pack is not enough to make the plugin load, though - lazy
+-- takes that over. plugins/treesitter.lua is what sources it, and the
+-- filetype -> parser aliases and the indentexpr below both depend on that.
+--
 -- Highlighting is not automatic on nvim-treesitter's current layout: a parser
 -- being present just means vim.treesitter.start() will succeed. So attach it
 -- per-buffer on FileType.

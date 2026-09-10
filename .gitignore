@@ -11,3 +11,7 @@ home/.config/herdr/.plugins.lock
 
 # macOS
 .DS_Store
+
+# Python bytecode from skills that ship scripts (skill-creator, excalidraw-diagram)
+__pycache__/
+*.pyc

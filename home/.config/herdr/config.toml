@@ -43,3 +43,6 @@ copy_mode  = "prefix+y"  # herdr's copy-mode entry key; copy-mode's own internal
 key = "prefix+shift+l"
 type = "shell"
 command = "~/.config/herdr/layout.sh"
+
+[worktrees]
+directory = "~/Code/Worktrees"

@@ -1,0 +1,4 @@
+.venv/
+*.png
+# uv.lock intentionally committed: pins the renderer env
+__pycache__/

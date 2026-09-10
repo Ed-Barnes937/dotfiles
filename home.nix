@@ -98,6 +98,7 @@ in
     jq # JSON processor
     ncdu # disk usage browser (TUI)
     p7zip # 7-Zip archives
+    uv # Python package/env manager; drives the excalidraw-diagram skill renderer
     neovim
     claude-code # from the sadjow flake overlay, not nixpkgs
 
@@ -196,6 +197,8 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/herdr";
   home.file.".claude/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/settings.json";
+  home.file.".claude/skills".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/skills";
   home.file.".claude/statusline-command.sh".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/statusline-command.sh";
   home.file.".config/nvim".source =

@@ -1,10 +1,6 @@
 #!/usr/bin/env sh
 # nvim left half | claude top-right (2/3) | shell bottom-right (1/3)
 # Bound to prefix+shift+L. Press it in a fresh worktree's single pane.
-#
-# Ratios are the share kept by the *existing* pane, so 0.5 then 0.7 reproduces
-# the standard layout. Pane cwd is inherited (terminal.new_cwd defaults to
-# "follow"), so no --cwd is needed and this works as-is in a new worktree.
 set -eu
 
 # keys.command runs this detached with no terminal attached, so a failure would

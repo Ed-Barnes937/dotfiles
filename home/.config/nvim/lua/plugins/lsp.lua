@@ -50,7 +50,7 @@ return {
           if not client or client.name ~= 'eslint' then return end
           vim.api.nvim_create_autocmd('BufWritePost', {
             buffer = args.buf,
-            callback = function() pcall(vim.cmd, 'LspEslintFixAll') end,
+            callback = function() pcall(vim.cmd.LspEslintFixAll, 'LspEslintFixAll') end,
           })
         end,
       })
