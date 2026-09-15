@@ -13,7 +13,12 @@
   <div id="root"></div>
 
   <script type="module">
-    import { exportToSvg } from "https://esm.sh/@excalidraw/excalidraw?bundle";
+    // Version pinned: unpinned, esm.sh serves whatever is latest that day and
+    // renders drift silently. Bump deliberately.
+    // No "?bundle": that flag makes esm.sh emit side-effect imports such as
+    // /@braintree/sanitize-url@6.0.2/es2022/dist/constants.mjs which 404, and one
+    // failed import kills the whole module graph. Verified broken 2026-09-10.
+    import { exportToSvg } from "https://esm.sh/@excalidraw/excalidraw@0.18.1";
 
     window.renderDiagram = async function(jsonData) {
       try {

@@ -1,0 +1,47 @@
+{
+  "skill_name": "hmw",
+  "evals": [
+    {
+      "id": 0,
+      "name": "review-bottleneck",
+      "prompt": "how might we make code review at genio less of a bottleneck? right now PRs sit for like 2 days, people batch huge diffs, and the senior folks are the only ones reviewing. i don't want the obvious 'add an SLA' answer, i want to actually explore the space",
+      "expected_output": "Divergent exploration: several competing HMW reframes before solutions, genuinely different directions (not variants of one idea), no ranking or verdict, at most one question, no files created.",
+      "files": [],
+      "assertions": [
+        "Offers multiple competing 'How might we...' reframes of the problem before proposing solutions",
+        "Proposed directions are genuinely different from each other, not shallow variants of one idea",
+        "Does not rank options, recommend a winner, or close with a summary/verdict",
+        "Asks the user at most one question",
+        "Creates no files or documents"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "vague-hunch",
+      "prompt": "ok vague hunch, riff with me: i keep feeling like my terminal knows more about my work than any todo app ever will. shell history, git activity, claude sessions... theres something in there about surfacing what i should do next?? no idea what the product is",
+      "expected_output": "Yes-and riffing: extends the user's fragment further before evaluating it, explores multiple divergent directions, stays generative rather than critical, at most one question, no files created.",
+      "files": [],
+      "assertions": [
+        "Extends (yes-ands) the user's half-idea further before evaluating or critiquing it",
+        "Explores multiple divergent directions rather than converging on a single proposal",
+        "Does not lead with feasibility critique or risk analysis",
+        "Asks the user at most one question",
+        "Creates no files or documents"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "committed-idea",
+      "prompt": "i've decided i want to build a focus-break timer that literally locks my screen until i've stood up (webcam or something detects it). help me firm this up - what would the pitch look like?",
+      "expected_output": "Recognizes the user is committed and converges: motivation before mechanism, recommends without deciding, offers the Pitch rather than silently writing a file, pitch shape includes appetite/rabbit holes/no-gos.",
+      "files": [],
+      "assertions": [
+        "Recognizes the user is already committed and converges rather than forcing broad divergence",
+        "Probes motivation/the job to be done before implementation mechanism",
+        "Recommends with a stated lean but leaves genuine decisions to the user",
+        "Offers to write the Pitch document rather than silently writing a file to disk unprompted",
+        "Any pitch structure shown includes scope boundaries such as appetite, rabbit holes, or no-gos"
+      ]
+    }
+  ]
+}

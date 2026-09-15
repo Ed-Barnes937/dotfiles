@@ -200,8 +200,10 @@ Before JSON, mentally trace how the eye moves through the diagram. There should 
 ### Step 5: Generate JSON
 Only now create the Excalidraw elements. **See below for how to handle large diagrams.**
 
-### Step 6: Render & Validate (MANDATORY)
-After generating the JSON, you MUST run the render-view-fix loop until the diagram looks right. This is not optional — see the **Render & Validate** section below for the full process.
+### Step 6: Self-Review the JSON
+Re-read what you produced against the Quality Checklist below, fixing what you can see in the JSON: overlaps, clipped text, bad bindings, uneven spacing.
+
+Then hand the `.excalidraw` file to the user. They open it in Excalidraw and judge the visuals themselves. Do NOT render unless they ask for a PNG.
 
 ---
 
@@ -228,9 +230,9 @@ After all sections are in place, read through the complete JSON and check:
 
 Fix any alignment or binding issues before rendering.
 
-**Phase 3: Render & validate**
+**Phase 3: Hand off**
 
-Now run the render-view-fix loop from the Render & Validate section. This is where you'll catch visual issues that aren't obvious from JSON — overlaps, clipping, imbalanced composition.
+Deliver the `.excalidraw` file and say what you'd want a second pair of eyes on (sections you found hard to balance, arrows you weren't sure about). The user reviews it in Excalidraw.
 
 ### Section Boundaries
 
@@ -444,9 +446,11 @@ See `references/element-templates.md` for copy-paste JSON templates for each ele
 
 ---
 
-## Render & Validate (MANDATORY)
+## Render (Optional, On Request Only)
 
-You cannot judge a diagram from JSON alone. After generating or editing the Excalidraw JSON, you MUST render it to PNG, view the image, and fix what you see — in a loop until it's right. This is a core part of the workflow, not a final check.
+The user reviews diagrams in Excalidraw themselves, so rendering is NOT part of the normal workflow. Use this section only when the user explicitly asks for a PNG.
+
+Requires network access: the template imports Excalidraw from the esm.sh CDN (pinned to 0.18.1) at render time.
 
 ### How to Render
 
@@ -458,7 +462,7 @@ This outputs a PNG next to the `.excalidraw` file. Then use the **Read tool** on
 
 ### The Loop
 
-After generating the initial JSON, run this cycle:
+When the user has asked for a PNG, this cycle catches most issues:
 
 **1. Render & View** — Run the render script, then Read the PNG.
 
@@ -542,11 +546,11 @@ uv run playwright install chromium
 19. **Opacity**: `opacity: 100` for all elements (no transparency)
 20. **Container ratio**: <30% of text elements should be inside containers
 
-### Visual Validation (Render Required)
-21. **Rendered to PNG**: Diagram has been rendered and visually inspected
+### Visual Validation (Verify in the JSON; the user confirms in Excalidraw)
+21. **Geometry reviewed**: Element x/y/width/height checked for the problems below
 22. **No text overflow**: All text fits within its container
 23. **No overlapping elements**: Shapes and text don't overlap unintentionally
 24. **Even spacing**: Similar elements have consistent spacing
 25. **Arrows land correctly**: Arrows connect to intended elements without crossing others
-26. **Readable at export size**: Text is legible in the rendered PNG
+26. **Readable at export size**: `fontSize` is large enough to read at the diagram's overall scale
 27. **Balanced composition**: No large empty voids or overcrowded regions

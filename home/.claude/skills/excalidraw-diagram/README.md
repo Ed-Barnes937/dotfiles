@@ -42,7 +42,7 @@ Ask your coding agent to create a diagram:
 
 > "Create an Excalidraw diagram showing how the AG-UI protocol streams events from an AI agent to a frontend UI"
 
-The skill handles the rest — concept mapping, layout, JSON generation, rendering, and visual validation.
+The skill handles concept mapping, layout and JSON generation, then hands you the `.excalidraw` file to review in Excalidraw. Rendering to PNG is available on request (see Setup) but is not part of the default flow.
 
 ## Customize Colors
 
