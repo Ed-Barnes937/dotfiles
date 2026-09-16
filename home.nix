@@ -19,16 +19,7 @@ let
     ln -s ${./home/zsh/omz-custom/plugins/custom-git} $out/plugins/custom-git
   '';
 
-  # Tree-sitter grammars, pinned by the flake instead of compiled at runtime
-  # by :TSInstall. nvim-treesitter's current (main-branch) layout reads parsers
-  # from <install_dir>/parser/<lang>.so, and its default install_dir is
-  # stdpath('data')/site — already on neovim's default runtimepath, so the
-  # symlinks below are all the wiring needed.
-  #
-  # nixpkgs spells these with hyphens; neovim wants the parser file named with
-  # underscores (tree-sitter-git-config -> git_config.so), hence the rename.
-  #
-  # Deliberately absent, and both exclusions are load-bearing:
+  # Deliberately absent:
   #
   # 1. c, lua, markdown, markdown-inline, query, vim, vimdoc. Neovim bundles
   #    these parsers itself, matched to the queries in its own runtime. Because
@@ -36,17 +27,6 @@ let
   #    shadows and *downgrades* what neovim ships.
   # 2. kotlin, regex. No bundled fallback, so these lose tree-sitter and fall
   #    back to regex syntax highlighting until the grammars catch up.
-  #
-  # Both are the same root cause: parsers come from pkgs.tree-sitter-grammars
-  # while the queries below come from pkgs.vimPlugins.nvim-treesitter, and
-  # nixpkgs updates the two on separate cadences. As of the current pin they are
-  # ~11 months apart, which is enough for the newer queries to reference nodes
-  # and fields the older grammars do not have (e.g. lua highlights matching
-  # `operator:` on binary_expression, absent from tree-sitter-lua 2025-05-16).
-  #
-  # To re-add a language from group 2, check first that its query set still
-  # compiles against the pinned grammar:
-  #   nvim --headless -c 'lua print(pcall(vim.treesitter.query.get,"regex","highlights"))' -c qa
   tsLangs = [
     "bash"
     "css"
@@ -94,7 +74,6 @@ in
     bat # cat with syntax highlighting
     deno # JavaScript/TypeScript runtime
     gh # GitHub CLI
-    git-lfs # git large file storage
     jq # JSON processor
     ncdu # disk usage browser (TUI)
     p7zip # 7-Zip archives
@@ -144,6 +123,41 @@ in
     "/usr/local/share/dotnet"
     "/usr/local/bin"
   ];
+
+  programs.git = {
+    enable = true;
+    lfs.enable = true; # also installs git-lfs, so it's not in home.packages
+
+    # Sign commits and tags with the SSH key held in 1Password.
+    signing = {
+      format = "ssh";
+      signer = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+      key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICZjJzKPoOblvFuYjrFuOygWAWr1e2hwrlttfrBCv/+m";
+      signByDefault = true;
+    };
+
+    settings = {
+      user = {
+        name = "ed-barnes937";
+        email = "ed.barnes937@gmail.com";
+      };
+      init.defaultBranch = "main";
+      core.editor = "nvim"; # core.editor beats $EDITOR, so stale env can't regress it
+      gpg.program = "/opt/homebrew/bin/gpg"; # verifying others' openpgp signatures
+
+      # gh as the GitHub credential helper, resolved from PATH instead of the
+      # nix-store path `gh auth setup-git` used to pin (broke every rebuild).
+      # The empty first entry resets any helper list inherited from above.
+      credential."https://github.com".helper = [
+        ""
+        "!gh auth git-credential"
+      ];
+      credential."https://gist.github.com".helper = [
+        ""
+        "!gh auth git-credential"
+      ];
+    };
+  };
 
   programs.starship = {
     enable = true;
