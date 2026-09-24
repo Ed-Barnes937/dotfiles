@@ -2,7 +2,7 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "model": "fable[1m]",
+  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "bash /Users/edward.barnes@glean.co/.claude/statusline-command.sh"
