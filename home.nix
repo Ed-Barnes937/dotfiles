@@ -145,16 +145,20 @@ in
       core.editor = "nvim"; # core.editor beats $EDITOR, so stale env can't regress it
       gpg.program = "/opt/homebrew/bin/gpg"; # verifying others' openpgp signatures
 
-      # gh as the GitHub credential helper, resolved from PATH instead of the
-      # nix-store path `gh auth setup-git` used to pin (broke every rebuild).
+      # gh as the GitHub credential helper, by absolute path rather than by
+      # name. Homebrew replaces PATH for everything it shells out to, keeping
+      # only its shims, the git it needs and the system dirs, so a bare `gh`
+      # is not found and any clone of a private tap dies with "could not read
+      # Username". Nix rewrites this store path on every rebuild, so it cannot
+      # go stale the way the path `gh auth setup-git` wrote used to.
       # The empty first entry resets any helper list inherited from above.
       credential."https://github.com".helper = [
         ""
-        "!gh auth git-credential"
+        "!${pkgs.gh}/bin/gh auth git-credential"
       ];
       credential."https://gist.github.com".helper = [
         ""
-        "!gh auth git-credential"
+        "!${pkgs.gh}/bin/gh auth git-credential"
       ];
     };
   };
