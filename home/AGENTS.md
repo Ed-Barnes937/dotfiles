@@ -10,6 +10,7 @@
 - Apply that same high standard to engineering excellence: lint, test failures, and test flakiness.
 - Before using "dynamic workflows", "ultra code" or any harness feature that immediately spawns a large swarm of subagents, always explain the tradeoffs and ask the user for explicit approval.
 
+<!--
 ## Prose style
 
 Applies to anything a human reads: responses, design docs, PR and commit bodies, review
@@ -32,6 +33,7 @@ tool work. Code comments follow the surrounding code's conventions, not this sec
   as machine output regardless of content.
 - If I say the prose has gone dense again, treat that as a correction to apply immediately
   for the rest of the session, not as a one-off.
+-->
 
 
 ## Maintaining this file
