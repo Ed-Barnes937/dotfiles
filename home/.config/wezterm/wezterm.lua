@@ -11,6 +11,12 @@ config.macos_window_background_blur = 40
 config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "RESIZE"
 
+-- Deliberately leaving enable_kitty_keyboard off. Claude Code requests kitty
+-- flags 5 at TUI startup (ESC [ <u then ESC [ >5u), and when wezterm honours
+-- that request Escape stops cancelling an in-progress run. There is no per-app
+-- gating in wezterm and no Claude-side opt-out, so nvim's unambiguous
+-- modifier+key reporting is not worth losing escape-to-cancel.
+
 config.keys = {
 	{
 		key = "LeftArrow",
