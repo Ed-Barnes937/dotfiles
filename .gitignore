@@ -8,6 +8,15 @@ home/.config/herdr/*.log
 home/.config/herdr/*.sock
 home/.config/herdr/session.json
 home/.config/herdr/.plugins.lock
+# Plugin installs are managed by herdr: plugins.json records absolute paths,
+# resolved commits and install timestamps, and plugins/ holds shallow clones
+# complete with their own .git. Neither is portable to another machine.
+home/.config/herdr/plugins.json
+home/.config/herdr/plugins/
+
+# Skills synced down from the Claude account, keyed by bucket UUID and
+# refreshed automatically. Hand-written skills live in home/.claude/skills/.
+home/.claude/skills/synced/
 
 # macOS
 .DS_Store
