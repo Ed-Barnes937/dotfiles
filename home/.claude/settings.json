@@ -12,6 +12,15 @@
     "mattpocock-skills@mattpocock": true
   },
   "tui": "fullscreen",
-  "theme": "auto",
-  "skipAutoPermissionPrompt": true
+  "theme": "custom:active",
+  "skipAutoPermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "env": {
+    "GIT_CONFIG_COUNT": "2",
+    "GIT_CONFIG_KEY_0": "user.signingkey",
+    "GIT_CONFIG_VALUE_0": "/Users/edward.barnes@glean.co/.ssh/id_ed25519.pub",
+    "GIT_CONFIG_KEY_1": "gpg.ssh.program",
+    "GIT_CONFIG_VALUE_1": "ssh-keygen",
+    "GIT_SSH_COMMAND": "ssh -o IdentityAgent=SSH_AUTH_SOCK -o IdentitiesOnly=yes -i /Users/edward.barnes@glean.co/.ssh/id_ed25519"
+  }
 }

@@ -1,0 +1,6 @@
+{
+  "//": "Stock dark palette. The accent blue (rgb(87,105,247)) clears 7:1 against Moon's #232136, so there is nothing to correct here - this file exists so the dark half of the switch has a target, not because dark needs fixing. Add overrides here only if a colour actually reads badly.",
+  "name": "Rosé Pine Moon",
+  "base": "dark",
+  "overrides": {}
+}

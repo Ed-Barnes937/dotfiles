@@ -1,0 +1,13 @@
+{
+  "name": "Rosé Pine Dawn",
+  "base": "light",
+  "overrides": {
+    "suggestion": "#286983",
+    "permission": "#286983",
+    "permissionShimmer": "#56949f",
+    "claudeBlue_FOR_SYSTEM_SPINNER": "#286983",
+    "claudeBlueShimmer_FOR_SYSTEM_SPINNER": "#56949f",
+    "rate_limit_fill": "#286983",
+    "ide": "#286983"
+  }
+}

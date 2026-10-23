@@ -98,6 +98,22 @@ in
   ];
   fonts.fontconfig.enable = true;
 
+  # Load the on-disk git signing/push key into the macOS keychain ssh-agent at
+  # login (passphrase cached in the login keychain), so Claude Code can sign and
+  # push without 1Password biometric prompts. The user's interactive shell still
+  # uses 1Password via ~/.ssh/config.
+  launchd.agents.ssh-add-keychain = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "/usr/bin/ssh-add"
+        "--apple-use-keychain"
+        "${home}/.ssh/id_ed25519"
+      ];
+      RunAtLoad = true;
+    };
+  };
+
   home.sessionVariables = {
     USE_GKE_GCLOUD_AUTH_PLUGIN = "True";
     PYENV_ROOT = "${home}/.pyenv";
@@ -108,6 +124,12 @@ in
     PNPM_HOME = "${home}/Library/pnpm";
     COREPACK_ENABLE_AUTO_PIN = "0";
     EDITOR = "nvim";
+    # bat ships no Rosé Pine theme, and its own light/dark pair (Monokai
+    # Extended) clashes with the terminal in both modes. "ansi" paints from the
+    # terminal's own 16 colours instead, so it is Rosé Pine by construction and
+    # follows the Moon/Dawn switch for free - at the cost of coarser
+    # highlighting than a 24-bit theme would give.
+    BAT_THEME = "ansi";
     DISABLE_AUTOUPDATER = "1"; # Claude Code: don't self-install into ~/.local; nix (claude-code-nix flake) is authoritative
   };
 
@@ -219,6 +241,12 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/skills";
   home.file.".claude/statusline-command.sh".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/statusline-command.sh";
+  # Sources only. wezterm copies the half matching the current macOS appearance
+  # to ~/.claude/themes/active.json, which is the theme Claude actually loads
+  # (settings.json pins "custom:active"). Deliberately not ~/.claude/themes:
+  # that directory has to stay writable and out of the repo.
+  home.file.".claude/theme-sources".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/themes";
   home.file.".config/nvim".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";
 
